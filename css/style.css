@@ -1,0 +1,139 @@
+
+body {
+	line-height: 1.4;
+	font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    font-size: 15px;
+	font-weight: 400;
+}
+
+a {
+    outline: none;
+}
+
+a:hover, a:focus, a:active{
+	text-decoration: none;
+    outline: none;
+}
+#map{
+	height: 400px;
+	width: 100%;
+}
+#plot{
+	padding-top: 30px;
+}
+.cursive{
+	font-family: 'Satisfy', cursive;
+}
+/***********************************
+************************************
+Responsive media queries
+************************************
+***********************************/
+.header {
+    background: url('../img/chicago-full-hd.jpg') no-repeat fixed;
+    background-size: cover;
+    min-height: 630px;
+    position: relative;
+}
+.navbar-default {
+    background-color: transparent;
+	border: 0px;
+    padding: 20px 0;
+    transition: all 0.3s;
+}
+.navbar-brand {
+    font-size: 36px;
+    font-family: 'Satisfy', cursive;
+}
+.navbar-default .navbar-brand, .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+    color: #fff;
+    outline: none;
+}
+.navbar-default .navbar-nav > li > a{
+	font-size: 14px;
+	font-weight: 400;
+	color: #fff;
+    outline: none;
+}
+.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+    color: #fffde0;
+    background-color: transparent;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+    color: #fffde0;
+    background-color: transparent;
+}
+
+.top-nav-collapse {
+    padding: 0; 
+    background: rgba(50,60,70, 0.9);
+	
+}
+
+.bg-color{
+	background-color: RGBA(0, 0, 0, 0.67);
+	min-height: 650px;
+}
+
+.banner-text{
+	/*border-left: 5px solid #BE2525;*/
+	padding: 15px 40px;
+	color: #fff;
+	margin-top: 170px;
+    text-align: center;
+}
+.banner-text h2, .banner-text p{
+	font-size: 60px;
+	font-weight: 400;
+	font-family: 'Questrial', sans-serif;
+}
+.banner-text h2 span{
+    font-family: 'Satisfy', cursive;
+}
+.overlay-detail{
+	margin: 0 auto;
+
+}
+.overlay-detail a  {
+    text-align: center;
+/*    position: absolute;*/
+    bottom: -140px;
+   
+
+}
+.section-padding{
+	padding: 60px 0px;
+}
+/***********************************
+************************************
+Responsive media queries
+************************************
+***********************************/
+@media (min-width: 551px) and (max-width: 980px){
+	.title-text{
+	margin-bottom: 15px;
+	}
+}
+@media (min-width: 100px) and (max-width: 550px) {
+	
+	.navbar-nav > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+	}
+	.navbar-brand{
+		margin-top: 0px;
+	}
+   
+	.text-center-xs{
+		text-align: center !important;
+	}
+	
+	.banner-text h2, .banner-text p {
+    font-size: 30px;
+	}
+	.title-text{
+	margin-bottom: 15px;
+	}
+}
