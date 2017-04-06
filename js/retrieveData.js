@@ -70,8 +70,8 @@ function fdataWeather(response){
         timeout:6000,
         dataType:'json',
         contentType:'aplication/json',
-        success: callback,
-        async: false
+        success: callback
+        
         
    })      
  }
@@ -93,7 +93,7 @@ function initMap(locations, name_address){
     var mapDiv = document.getElementById('map');
     var map = new google.maps.Map(mapDiv, {
         center: location,
-        zoom: 13,
+        zoom: 14,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
@@ -180,7 +180,7 @@ function initMap(locations, name_address){
     });
 };
 
- // window.addEventListener('load', initMap);
+  
 
 $(document).ready(function(){
     
