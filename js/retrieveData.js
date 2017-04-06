@@ -132,7 +132,7 @@ function initMap(locations, name_address){
                 }, is_unsave);
 
                 function is_unsave(response, status) {
-                    $('#guardian').prepend('<img id="guardian" src="guardian.png" />');
+                    $('#guardian').prepend('<img id="guardian" src="img/guardian.png" />');
                 }
 
             };
