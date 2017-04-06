@@ -93,7 +93,7 @@ function initMap(locations, name_address){
     var mapDiv = document.getElementById('map');
     var map = new google.maps.Map(mapDiv, {
         center: location,
-        zoom: 13,
+        zoom: 14,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
