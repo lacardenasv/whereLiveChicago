@@ -2,7 +2,7 @@
 //Global variables
 var locations=[];
 var name_address=[]  ;
-
+var unsafe_locations=[];
 //callbacks functions
 function fdataHouse(response){
     
@@ -35,11 +35,21 @@ function fdataCrime(response){
     
     //console.log('works');
     $.map(response, function(crime, index){
-        //console.log(crime._location_description);
-    })
+  
+            unsafe_locations.push({
+                latitude: crime.latitude,
+                longitude: crime.longitude
+            })
+        
+         
+    });
+//console.log(unsafe_locations.length);   
+}
+    
+    
    
 
-}
+
 
 function fdataPrice(response){
     
@@ -78,7 +88,7 @@ function initMap(locations, name_address){
     
     var location= new google.maps.LatLng(41.8708, -87.6505);
     var name= 'Departament of Computer Science – University of Illinois, Chicago';
-    var imagePordue= {url: 'img/university.png', scaledSize: new google.maps.Size(32, 32)}
+    var imagePordue= {url: 'img/university.png', scaledSize: new google.maps.Size(35, 35)}
     var imageHouse= {url: 'img/house.png', scaledSize: new google.maps.Size(32, 32)}
     var mapDiv = document.getElementById('map');
     var map = new google.maps.Map(mapDiv, {
@@ -98,18 +108,49 @@ function initMap(locations, name_address){
             icon: imageHouse
         });
 
-        map.setCenter(market.getPosition());
+        
         
         var content= name_address[i].name + ', Address: '+name_address[i].address;
         var info = new google.maps.InfoWindow();
         
         google.maps.event.addListener(market,'click', (function(market,content,info){ 
             return function() {
-                info.setContent(content);
-                info.open(map,market);
+                //look if house is unsave 
+                var origin = market.position;
+                var destinations1=[];
+                //
+                for (var i = 0; i < 25; i++) {
+                    destinations1.push( new google.maps.LatLng(unsafe_locations[i].latitude, unsafe_locations[i].longitude))
+                }
+                var service = new google.maps.DistanceMatrixService();
+                service.getDistanceMatrix(
+                {
+                    origins: [origin],
+                    destinations: destinations1,
+                    travelMode: 'TRANSIT',
+                 
+                }, is_unsave);
+
+                function is_unsave(response, status) {
+                    $('#guardian').prepend('<img id="guardian" src="guardian.png" />');
+                }
 
             };
         })(market,content,info)); 
+        google.maps.event.addListener(market, 'mouseover', (function(market,content,info) {
+            return function () {
+                info.setContent(content);
+                info.open(map,market);
+              }
+        })(market,content,info));
+
+        google.maps.event.addListener(market, 'mouseout', (function(market,content,info) {
+            return function () {
+                
+                info.close(map,market);
+              }
+        })(market,content,info));
+                
     }
     
     //departament computers
@@ -149,5 +190,7 @@ $(document).ready(function(){
     var dataCrime= new loadDataset('https://data.cityofchicago.org/resource/dfnk-7re6.json', fdataCrime);
     // var dataPrice= new loadDataset(); 
     //var dataWeather= new loadDataset(); 
+
+    
 
 });
