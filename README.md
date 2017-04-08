@@ -34,9 +34,8 @@ Data Visualization:
 
 Interaction Form:
 
-[N] [List] Any information output? list them. (text field, text area, label, plain HTML ...)
-[N] [List] Any operation option (filters)? List them. (search markets, search vegetables, filter based on price, sort based on convenience ...)
-[Y] [List] Any information input? List them. Markers
+[N] [List] Any information output? list them.
+[N] [List] Any operation option (filters)? 
 [Y] [List] Interaction with Map? List them. Hover Mouse -> Show InfoWindow
 [N] [List] Interaction with data visualization? 
 
