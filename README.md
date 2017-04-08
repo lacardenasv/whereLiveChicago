@@ -4,7 +4,7 @@
 
 Keywords : price , safety, chicago, Places of leisure, near
 
-Description of the datasets and function design
+*Description of the datasets and function design
 
 [Affordable Rental Housing Developments] [https://data.cityofchicago.org/Community-Economic-Development/Affordable-Rental-Housing-Developments/uahe-iimk] [JSON] [property_name, address,longitude, latitude] Provides information on affordable rental housing development in chicago.
 [Crimes - 2015][https://data.cityofchicago.org/Public-Safety/Crimes-2015/vwwp-7yr9][JSON] [longitude, lalitude] This dataset reflects reported incidents of crime (with the exception of murders where data exists for each victim) that occurred in the City of Chicago from 2001 to present, minus the most recent seven days. Data is extracted from the Chicago Police Department's CLEAR (Citizen Law Enforcement Analysis and Reporting) system 
@@ -12,7 +12,7 @@ Description of the datasets and function design
 [N] Do you use the primary dataset ”online climate data” from data.gov?
 [Y] [List] Are all these datasets from data.gov or data.indy.gov? 
 
-Brief Description
+*Brief Description
 
 DeepHouse allows you to find a home that fits your needs in the city of chicago.
 It takes as criteria the level of criminality in the neighborhood, nearby leisure sites such as restaurants, libraries, bars, proximity to the computer science department of the University of Illinois.
