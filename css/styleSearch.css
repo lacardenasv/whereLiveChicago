@@ -1,0 +1,42 @@
+.preloader-wrapper {
+position: absolute;
+top :0;
+left: 0;
+right: 0;
+bottom: 0;
+margin: auto;
+}
+.cursive-weather{
+    font-family: 'Satisfy', cursive;
+    font-size: 20px;
+}
+.cursive{
+	font-family: 'Satisfy', cursive;
+}
+#map2{
+    height: 500px;
+    width: 100%;
+}
+#map{
+	height: 650px;
+	width: 100%;
+}
+#logo{
+    padding-left: 55px;
+}
+.main {
+    padding-left: 300px;
+}
+.padding-top{
+    padding-top: 10px;
+}
+.padding{
+    padding-left: 20px;
+}
+
+    @media only screen and (max-width : 992px) {
+       .main{
+        padding-left: 0;
+      }
+    }
+          

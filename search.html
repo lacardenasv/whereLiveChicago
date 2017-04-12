@@ -1,2 +1,162 @@
-<!DOCTYPE>
-html
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Search House in Chicago</title>
+        <!--Import Google Icon Font-->
+
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Material+Icons|Satisfy">
+        
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/styleSearch.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="slideNav">
+            <ul  class="side-nav fixed z-depth-4">
+                <li>
+                    <div id="logo">
+                        <img   class="responsive-img" src="img/logo.jpg" height="70%" width="70%">    
+                    </div>
+                    <h4 class="center-align cursive">DeepHouse</h4>
+                </li>
+
+                <li><div class="divider"></div></li>
+                <li> 
+                    <div class="card padding padding-top">
+                        <div class="card-header card-purple">
+                            <i class="material-icons left purple-text text-purple">cloud</i>
+                        </div>
+                        <div class="card-content" id='weather'>
+                            <p  class="cursive-weather"><strong></strong></p>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="card-footer">
+                          
+                        </div>
+                    </div>
+                </li>
+                 <li class="no-padding">
+                    <ul id="search" class="collapsible collapsible-accordion">
+                    
+                        <li >
+                            <a class="collapsible-header waves-effect purple btn">Filters<i class="material-icons right white-text text-white">search</i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>
+                                        <form action="#" class="padding" id='filters'>
+                                            <p>
+                                                <input type="checkbox" class="filled-in" id="near"  />
+                                                <label for="near">Homes Nearby</label> <br>
+                                                <input type="checkbox" class="filled-in" id="save"  />
+                                                <label for="save">Safe Homes</label>
+                                            </p>
+                                            <p>
+                                        </form>
+                                    </li>
+                                   
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                 <li class="no-padding">
+                    <ul id="place" class="collapsible collapsible-accordion hide">
+                    
+                        <li >
+                            <a class="collapsible-header waves-effect purple btn">Places Near<i class="material-icons right white-text text-white">list</i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>
+                                        <form action="#" class="padding" id='places'>
+                                            <p>
+                                                <input class="with-gap" name="group1" type="radio" id="park"  />
+                                                <label for="park">Parks</label><br>
+                                                <input class="with-gap" name="group1" type="radio" id="police"  />
+                                                <label for="police">Police Stations</label><br>
+                                                <input class="with-gap" name="group1" type="radio" id="health"  />
+                                                <label for="health">Health centers</label><br>
+                                                <input class="with-gap" name="group1" type="radio" id="bars"  />
+                                                <label for="bars">Leisure centers</label>
+                                            </p>
+                                            <p>
+                                        </form>
+                                    </li>
+                                   
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                 
+                <li><a id="restore" class="waves-effect purple btn hide"><i class="material-icons right white-text text-white">restore</i>All houses</a></li>
+               
+            </ul>
+        </div>
+        <div class="main">
+             <div class="row hide" id='chip' >
+                
+                <div class="col s6">
+                    <div class="chips chips-autocomplete"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12  ">
+
+                    <div id=guardian>
+                    
+                    </div>
+                   
+                    <div id='map' class="valign-wrapper " >
+                        <div class=" preloader-wrapper big">
+                            <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id='map2' class="valign-wrapper hide" >
+                        dsfkljs
+                        <div class=" preloader-wrapper big">
+                            <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+           
+        </div>      
+    
+
+
+   <!--scripts-->       
+        <script async defer
+	        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtlN7Dw4oyfftne6OKKaEqVmol-AywbFo&libraries=geometry">
+        </script>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+       
+        <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>-->
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+ 
+        <script src="js/retrieveData.js">
+        </script>
+    </body>
+</html>

@@ -16,16 +16,8 @@ a:hover, a:focus, a:active{
 	text-decoration: none;
     outline: none;
 }
-#map{
-	height: 400px;
-	width: 100%;
-}
-#plot{
-	padding-top: 30px;
-}
-.cursive{
-	font-family: 'Satisfy', cursive;
-}
+
+
 /***********************************
 ************************************
 Responsive media queries
@@ -36,6 +28,7 @@ Responsive media queries
     background-size: cover;
     min-height: 630px;
     position: relative;
+	height: 690px;
 }
 .navbar-default {
     background-color: transparent;
@@ -74,7 +67,7 @@ Responsive media queries
 
 .bg-color{
 	background-color: RGBA(0, 0, 0, 0.67);
-	min-height: 650px;
+	min-height: 690px;
 }
 
 .banner-text{
@@ -100,12 +93,15 @@ Responsive media queries
     text-align: center;
 /*    position: absolute;*/
     bottom: -140px;
-   
+}
+#search:hover{
+	
+	color: white;
+}
 
-}
-.section-padding{
-	padding: 60px 0px;
-}
+/*Search.html*/
+
+
 /***********************************
 ************************************
 Responsive media queries
