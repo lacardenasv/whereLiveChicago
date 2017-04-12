@@ -65,14 +65,14 @@ The application will be building with 3 principal languages, HTML, CSS, and Java
 	2. JQuery: Library of JavaScript (AJAX)
 	3. Font-Awesome: css toolkit for get icons 
 	4. Materialize: This is a framework for material design and is installed as follows.->
-		NPM:   npm install materialize-css
-		Bower: bower install materialize
-		You can add these lines to your html:
-		<!-- Compiled and minified CSS -->
-			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+			NPM:   npm install materialize-css
+			Bower: bower install materialize
+			You can add these lines to your html:
+			<!-- Compiled and minified CSS -->
+				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
 
-		<!-- Compiled and minified JavaScript -->
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+			<!-- Compiled and minified JavaScript -->
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
 		
           
 Test Case Which browsers did you test your project on? Chrome, Firefox
