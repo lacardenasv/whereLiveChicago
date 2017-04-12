@@ -88,7 +88,7 @@ function fdataPark(response) {
 
 function fdataHealth(response) {
     $.map(response, function (center, index) {  
-        console.log(center.location);                       
+       // console.log(center.location);                       
         health_centers.push({
             name: center.site_name,
             type: center.clinic_type,
@@ -372,7 +372,7 @@ function initMap(locations, name_address){
     var mapDiv = document.getElementById('map');
     var map = new google.maps.Map(mapDiv, {
         center: location,
-        zoom: 14,
+        zoom: 13,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
     //locating houses
