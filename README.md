@@ -81,4 +81,4 @@ Test Case Which browsers did you test your project on? Chrome, Firefox
 
 
 There is a problem when starting the map sometimes there is no load and you have to reload the page.
-This is the page : https://lacardenasv.github.io/whereLiveChicago.github.io/search.html there's a problem with the weather request because the protocol used is http and not https (security) :(
+This is the page : https://lacardenasv.github.io/whereLiveChicago.github.io/ there's a problem with the weather request because the protocol used is http and not https (security) :(
