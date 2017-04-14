@@ -1,13 +1,16 @@
 //Locations have all latitud and longitud of the posible rent house
 //Global variables
+var AVAILABLE= false; 
 var locations1=[];
-var name_address1=[]  ;
-var unsafe_locations=[];
+var safe_locations=[];    
 var libraries=[]; 
 var station_police=[];
 var parks=[];
 var health_centers=[];
 var bars=[];
+var community_areas=[];
+var crimes=[];
+
 //callbacks functions
 function fdataHouse(response){
     $.map(response, function (house, index) {
@@ -15,36 +18,47 @@ function fdataHouse(response){
         if ((typeof house.longitude !== 'undefined') && (typeof house.latitude !== 'undefined') ){
         
             locations1.push({
-            
+                community_area: house.community_area_number,
                 latitude: house.latitude,
-                longitude: house.longitude
-            });
-            name_address1.push({
+                longitude: house.longitude,
                 name: house.property_name,
                 address: house.address
+
             });
         }
         
     })
-    initMap(locations1, name_address1);
+    initMap(locations1);
 }
+
+function fdataCommunityA(response) {
+   // console.log(response);
+    $.map(response , function (community, index) { 
+        community_areas.push({
+            
+            area_numbe: community.area_numbe,
+            community: community.community,
+            the_geom: community.the_geom,
+            rate_save: 0
+        })
+     })
+}
+
 
 function fdataCrime(response){
+    //console.log(response);
     $.map(response, function(crime, index){
-            unsafe_locations.push({
-                latitude: crime.latitude,
-                longitude: crime.longitude
-            })
+        crimes.push({
+            id: index,
+            community_area: crime.community_area
+        })
     });
-//console.log(unsafe_locations.length);   
 }
 
-function fdataPrice(response){
-    
-}
+
 
 function fdataWeather(response){
-    console.log(response.weather[0].main);
+    //console.log(response.weather[0].main);
     $('#weather').find('p').text('Today the weather is '+response.weather[0].main);
     
 }
@@ -56,9 +70,6 @@ function fdataLibraries(response) {
             address: librarie.address,
             location: librarie.location
         })
-        
-       // console.log(librarie.location.coordinates[0]);
-       // console.log(librarie.location.coordinates[1]);
     })
 }
 
@@ -110,6 +121,8 @@ function fdataBar(response) {
         })
     })
 }
+  
+
 //This function works for all dataset , except Zillow , this help me to retrieve the data 
 function loadDataset(url, callback) {
     
@@ -129,9 +142,44 @@ function loadDataset(url, callback) {
         
    })      
  }
-
+function rate_save() {
+    //var CRIMES= 263171;
+    for (var i = 0; i < community_areas.length; i++) {
+        //console.log(community_areas[i].area_numbe);
+        for (var j = 0; j < crimes.length; j++) {
+            var inside= community_areas[i].area_numbe===crimes[j].community_area;
+            //console.log(crimes[j].community_area);
+            if (inside){
+                community_areas[i].rate_save=(community_areas[i].rate_save+1);
+            }
+        }
+    }
+    return true;
+}
  //filters functions
- function find_near() {
+ function find_save(locations) {
+    safe_locations=[];
+    if (!AVAILABLE){ 
+        var rate= rate_save();
+        AVAILABLE= rate;
+    }
+    $.map(locations, function(house, index){
+        //console.log(house);
+        for( var i=0; i<community_areas.length;i++){
+            if (house.community_area===community_areas[i].area_numbe) {
+                //range of security= crimes in community_area<15
+                if(community_areas[i].rate_save<15){
+                    safe_locations.push(house);
+                }
+                break;
+            }
+        }
+    })
+    //console.log(safe_locations);
+    initMap(safe_locations);
+
+ }
+ function find_near(mode) {
     var locations_near=[];
     var name_near=[];
     var areaNear= new google.maps.Polygon({
@@ -149,12 +197,17 @@ function loadDataset(url, callback) {
        
        if (near===true){
            locations_near.push(locations1[i]);
-           name_near.push(name_address1[i]);
        }
     }
-    initMap(locations_near,name_near);
+    if(mode==1){
+        initMap(locations_near,name_near);
+    }
+    return locations_near;
  }
-  
+function find_save_and_near(mode) {
+    var near= find_near(mode);
+    find_save(near)
+}
 function filters(is_check) {
     //Any suggestions for this code? , I don't like it :(
     $('#filters').on('change', '.filled-in', function () {  
@@ -177,14 +230,16 @@ function filters(is_check) {
                 is_check.save= false; 
             }
         }
+        
         if(is_check.save===true && is_check.near===true){
-            find_save_and_near();
+            find_save_and_near(2);
+            
         }else if(is_check.save===true){
-            find_save();
+            find_save(locations1);
         }else if(is_check.near===true){
-            find_near(); 
+            find_near(1); 
         }else{
-            initMap(locations1, name_address1);
+            initMap(locations1);
         }
         
         
@@ -237,7 +292,7 @@ function load_places_near(area_near, locations ,map2, img) {
         var latLng=  new google.maps.LatLng(lat , lng);
         var near= google.maps.geometry.poly.containsLocation(latLng, area_near);
        
-       if (near===true){
+        if (near===true){
            var market= new google.maps.Marker({
             position: latLng,
             map: map2,
@@ -327,7 +382,6 @@ function initMap2(origin, content) {
         {lat: origin_lat_lon.lat - 0.010693, lng: origin_lat_lon.lng + 0.013942  }
     ];
 
-   
     var area_near= new google.maps.Polygon({
         paths: area,
           strokeColor: '#FF0000',
@@ -338,8 +392,6 @@ function initMap2(origin, content) {
         });
    // area_near.setMap(map2);
       
-   
-
    var near_libra= new load_places_near(area_near,libraries,map2,imageLibra);
 
    $('#restore').on('click', function(){
@@ -364,7 +416,7 @@ function initMap2(origin, content) {
 
 */
 //Map fucntion    
-function initMap(locations, name_address){
+function initMap(locations){
     var location= new google.maps.LatLng(41.8708, -87.6505);
     var name= 'Departament of Computer Science – University of Illinois, Chicago';
     var imagePordue= {url: 'img/university.png', scaledSize: new google.maps.Size(35, 35)}
@@ -385,36 +437,16 @@ function initMap(locations, name_address){
             map: map,
             icon: imageHouse
         });
-        var content= name_address[i].name + ', Address: '+name_address[i].address;
+        var content= locations[i].name + ', Address: '+locations[i].address;
         var info = new google.maps.InfoWindow();
         
         google.maps.event.addListener(market,'click', (function(market,content,info){ 
             return function() {
-                
                 var origin = market.position;
-                //console.log(market.position.toJSON());
                 var places_near= new initMap2(market.position, content);
-                //look if house is unsave 
-                /*var destinations1=[];
-                //Change!!!!!!!
-                for (var i = 0; i < 25; i++) {
-                    destinations1.push( new google.maps.LatLng(unsafe_locations[i].latitude, unsafe_locations[i].longitude))
-                }
-                var service = new google.maps.DistanceMatrixService();
-                service.getDistanceMatrix(
-                {
-                    origins: [origin],
-                    destinations: destinations1,
-                    travelMode: 'TRANSIT',
-                 
-                }, is_unsave);
-
-                function is_unsave(response, status) {
-                    $('#guardian').prepend('<img id="guardian" src="img/guardian.png" />');
-                }*/
-
             };
         })(market,content,info)); 
+        
         google.maps.event.addListener(market, 'mouseover', (function(market,content,info) {
             return function () {
                 info.setContent(content);
@@ -458,16 +490,18 @@ function initMap(locations, name_address){
 $(document).ready(function(){
     
     var dataRentHouse= new  loadDataset('https://data.cityofchicago.org/resource/uahe-iimk.json', fdataHouse);
-    var dataCrime= new loadDataset('https://data.cityofchicago.org/resource/dfnk-7re6.json', fdataCrime);
     var dataWeather= new loadDataset('http://api.openweathermap.org/data/2.5/weather?lon=-87.635597&lat=41.506149&APPID=0702dcac8a4c88c8009b41d768395487', fdataWeather); 
     var dataLibraries= new loadDataset('https://data.cityofchicago.org/resource/psqp-6rmg.json', fdataLibraries); 
     var dataPolice = new loadDataset('https://data.cityofchicago.org/resource/9rg7-mz9y.json', fdataPolice);
     var dataPark= new loadDataset('https://data.cityofchicago.org/resource/4xwe-2j3y.json', fdataPark);
     var dataHealth= new loadDataset('https://data.cityofchicago.org/resource/4msa-kt5t.json', fdataHealth);
+    var dataCommunityA= new loadDataset('https://data.cityofchicago.org/resource/igwz-8jzy.json', fdataCommunityA);
+    var dataCrime= new loadDataset('https://data.cityofchicago.org/resource/vwwp-7yr9.json', fdataCrime);
     //var dataBar= new loadDataset()
-    //filters 
+    //filters
+
     var is_check= { save: false , near: false};
     var filter= new filters(is_check);
 
 
-});
+})
