@@ -25,6 +25,8 @@ function fdataHouse(response){
                 address: house.address
 
             });
+            
+            
         }
         
     })
@@ -58,7 +60,7 @@ function fdataCrime(response){
 
 
 function fdataWeather(response){
-    //console.log(response.weather[0].main);
+    
     $('#weather').find('p').text('Today the weather is '+response.weather[0].main);
     
 }
@@ -125,7 +127,7 @@ function fdataBar(response) {
 
 //This function works for all dataset , except Zillow , this help me to retrieve the data 
 function loadDataset(url, callback) {
-    
+   
    $.ajax(url, {
 
         type: 'GET',
@@ -142,13 +144,44 @@ function loadDataset(url, callback) {
         
    })      
  }
+//function retrieve data from zillow
+function loadZillow(location) {
+    
+    var param0= location.address.split(" ").join('+');
+    var param=param0.split('.').join('');
+    
+    var key='X1-ZWz1frg99ut91n_7yjzz';
+    var proxy='https://cors-anywhere.herokuapp.com/';
+    var url= 'http://www.zillow.com/webservice/GetSearchResults.htm?zws-id='+key+'&address='+param+'&citystatezip=Chicago&rentzestimate=true'
+   
+    $.ajax(proxy+url, {
+        type: 'GET',
+        contentType: 'text/xml',
+        dataType: 'xml',
+        success: function (xml) {
+            var xmlDoc = $.parseXML( xml ); 
+            var $xml = $(xmlDoc);
+
+            console.log(xml);
+            /*$person.each(function(){
+
+    var name = $(this).find('name').text(),
+        age = $(this).find('age').text();
+
+    $("#ProfleList" ).append('<li>' +name+ ' - ' +age+ '</li>');
+*
+});
+*/ 
+        }
+    })
+}
+
 function rate_save() {
-    //var CRIMES= 263171;
+    
     for (var i = 0; i < community_areas.length; i++) {
-        //console.log(community_areas[i].area_numbe);
         for (var j = 0; j < crimes.length; j++) {
+    
             var inside= community_areas[i].area_numbe===crimes[j].community_area;
-            //console.log(crimes[j].community_area);
             if (inside){
                 community_areas[i].rate_save=(community_areas[i].rate_save+1);
             }
@@ -164,10 +197,8 @@ function rate_save() {
         AVAILABLE= rate;
     }
     $.map(locations, function(house, index){
-        //console.log(house);
         for( var i=0; i<community_areas.length;i++){
             if (house.community_area===community_areas[i].area_numbe) {
-                //range of security= crimes in community_area<15
                 if(community_areas[i].rate_save<15){
                     safe_locations.push(house);
                 }
@@ -204,6 +235,8 @@ function rate_save() {
     }
     return locations_near;
  }
+
+//MODE : is the way for know which map display. 
 function find_save_and_near(mode) {
     var near= find_near(mode);
     find_save(near)
@@ -252,6 +285,7 @@ function filters(is_check) {
     $('#search').addClass('hide');
     $('#restore').removeClass('hide');
     $('#place').removeClass('hide');
+    $('#price').removeClass('hide');
     
  }
 
@@ -284,6 +318,23 @@ function place_checked(area_near, map2) {
         }
     })
 }
+//REFACTOR
+function events_marker(market, content, map, info) {
+            
+    google.maps.event.addListener(market, 'mouseover', (function(market,content,info) {
+        return function () {
+            info.setContent(content);
+            info.open(map2,market);
+        }
+    })(market,content,info));
+
+    google.maps.event.addListener(market, 'mouseout', (function(market,content,info) {
+        return function () {
+            info.close(map2,market);
+        }
+    })(market,content,info));
+}
+
 //functions for a house
 function load_places_near(area_near, locations ,map2, img) {
      for (var i = 0; i < locations.length; i++) {
@@ -301,19 +352,8 @@ function load_places_near(area_near, locations ,map2, img) {
             var content= locations[i].name + ', Address: '+locations[i].address;
             var info = new google.maps.InfoWindow();
             
-            google.maps.event.addListener(market, 'mouseover', (function(market,content,info) {
-                return function () {
-                    info.setContent(content);
-                    info.open(map2,market);
-                }
-            })(market,content,info));
-
-            google.maps.event.addListener(market, 'mouseout', (function(market,content,info) {
-                return function () {
-                    info.close(map2,market);
-                }
-            })(market,content,info));
-       }
+            var events= new events_marker(market, content, map2, info);    
+        }
     }
 }
 
@@ -325,10 +365,10 @@ function initMap2(origin, content) {
     var imagePordue= {url: 'img/university.png', scaledSize: new google.maps.Size(35, 35)}
     
     var dom_resfresh= new remove_add_components();
-    var location= origin;
+    var location= origin.position;
     var places=[];
     var description= content;
-    var origin_lat_lon= origin.toJSON();
+    var origin_lat_lon= origin.position.toJSON();
     var imageOrigin= {url: 'img/house.png', scaledSize: new google.maps.Size(35, 35)}
     var imageLibra={url: 'img/libra.png', scaledSize: new google.maps.Size(40, 40)}
     var mapDiv= document.getElementById('map2');
@@ -343,19 +383,13 @@ function initMap2(origin, content) {
         map: map2,//Line 3: Reference to map object
         icon: imageOrigin
     })
-    //infoDepartament
+    
     var infoWindow = new google.maps.InfoWindow({
         content: description
     });
     
-    google.maps.event.addListener(marker, 'mouseover', function() {
-      infoWindow.open(map2,marker);
-
-    });
-    google.maps.event.addListener(marker, 'mouseout', function() {
-      infoWindow.close(map2,marker);
-
-    });
+    var events= new events_marker(marker, description, map2, infoWindow);
+    
     var depart_marker = new google.maps.Marker({ //Line 1
         position: depart, //Line2: Location to be highlighted
         map: map2,//Line 3: Reference to map object
@@ -366,14 +400,7 @@ function initMap2(origin, content) {
         content: name
     });
     
-    google.maps.event.addListener(depart_marker, 'mouseover', function() {
-      infoWindow1.open(map2,depart_marker);
-
-    });
-    google.maps.event.addListener(depart_marker, 'mouseout', function() {
-      infoWindow1.close(map2,depart_marker);
-
-    });
+    var events1= new events_marker(depart_marker, name, map2, infoWindow1);
     //area near
     var area= [
         {lat: origin_lat_lon.lat + 0.010871, lng: origin_lat_lon.lng + 0.013173 },
@@ -391,8 +418,9 @@ function initMap2(origin, content) {
           fillOpacity: 0.35
         });
    // area_near.setMap(map2);
-      
-   var near_libra= new load_places_near(area_near,libraries,map2,imageLibra);
+    //places near  
+    var near_libra= new load_places_near(area_near,libraries,map2,imageLibra);
+    var checked_place= new place_checked(area_near, map2);
 
    $('#restore').on('click', function(){
         $('#map').removeClass('hide');
@@ -402,11 +430,16 @@ function initMap2(origin, content) {
         $('#restore').addClass('hide');
         $('#place').addClass('hide');
         $('#places').trigger("reset");
+        $('#price').addClass('hide');
    });
-
-   //places near
-   var checked_place= new place_checked(area_near, map2);
     
+    
+   $('#price').on('click', price(origin))
+   
+}
+
+function price(origin) {
+    var price=new loadZillow(origin);
 }
 /**
  * 
@@ -435,31 +468,24 @@ function initMap(locations){
         var market= new google.maps.Marker({
             position: latLng,
             map: map,
-            icon: imageHouse
+            icon: imageHouse,
+            address: locations[i].address
         });
+        
         var content= locations[i].name + ', Address: '+locations[i].address;
         var info = new google.maps.InfoWindow();
         
         google.maps.event.addListener(market,'click', (function(market,content,info){ 
+               
             return function() {
                 var origin = market.position;
-                var places_near= new initMap2(market.position, content);
+                var places_near= new initMap2(market, content);
+                
             };
         })(market,content,info)); 
         
-        google.maps.event.addListener(market, 'mouseover', (function(market,content,info) {
-            return function () {
-                info.setContent(content);
-                info.open(map,market);
-              }
-        })(market,content,info));
-
-        google.maps.event.addListener(market, 'mouseout', (function(market,content,info) {
-            return function () {
-                info.close(map,market);
-              }
-        })(market,content,info));
-
+        var events= new events_marker(market, content, map, info);
+        
                 
     }
     //departament computers
@@ -474,18 +500,16 @@ function initMap(locations){
     });
     //map listenersDepartament
     // about event departament computers...
-    google.maps.event.addListener(marker, 'mouseover', function() {
-      infoWindow.open(map,marker);
-
-    });
-    google.maps.event.addListener(marker, 'mouseout', function() {
-      infoWindow.close(map,marker);
-
-    });
-
+    var events1= new events_marker(marker, name, map, infoWindow);
+    
 };
 
- 
+ //DATA VISUALIZATION
+
+ function dataVizualization(){
+     d3.queue()
+     .defer()
+ }
 
 $(document).ready(function(){
     
@@ -499,7 +523,7 @@ $(document).ready(function(){
     var dataCrime= new loadDataset('https://data.cityofchicago.org/resource/vwwp-7yr9.json', fdataCrime);
     //var dataBar= new loadDataset()
     //filters
-
+    
     var is_check= { save: false , near: false};
     var filter= new filters(is_check);
 
