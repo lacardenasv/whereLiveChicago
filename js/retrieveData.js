@@ -456,7 +456,27 @@ function initMap2(origin, content) {
    
 }
 function distance(origin, depart) {
-    
+    var origin1 = origin.position;
+
+    var destination = depart;
+    var service = new google.maps.DistanceMatrixService();
+    service.getDistanceMatrix(
+    {
+        origins: [origin1],
+        destinations: [destination],
+        travelMode: 'WALKING',
+        
+    }, callback);
+
+    function callback(response, status) {
+        console.log(response);
+        var distance= response.rows[0].elements[0].distance.text;
+        var time= response.rows[0].elements[0].duration.text;
+        console.log(distance)
+        $('#distance').text('Distance: '+ distance);
+        $('#time').text('Travel time walking: '+ time);
+        
+    }
 }
 function detail_card(origin, depart) {
     var phone= 'Phone: '+origin.phone_number;
