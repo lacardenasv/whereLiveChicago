@@ -115,12 +115,13 @@ function fdataHealth(response) {
 }
 
 function fdataBar(response) {
-    $.map(response, function (station, index) {  
-        parks.push({
-            address: station.address,
-            phone: station.phone,
-            latitude: latitude,
-            longitude: longitude
+    $.map(response, function (restaurant, index) {  
+        bars.push({
+            address: restaurant.address,
+            name: restaurant.dba_name,
+            location:{
+                coordinates:[restaurant.longitude,restaurant.latitude]
+            }
         })
     })
 }
@@ -577,7 +578,7 @@ $(document).ready(function(){
     var dataHealth= new loadDataset('https://data.cityofchicago.org/resource/4msa-kt5t.json', fdataHealth);
     var dataCommunityA= new loadDataset('https://data.cityofchicago.org/resource/igwz-8jzy.json', fdataCommunityA);
     var dataCrime= new loadDataset('https://data.cityofchicago.org/resource/vwwp-7yr9.json', fdataCrime);
-    //var dataBar= new loadDataset()
+    var dataRestaurant= new loadDataset('https://data.cityofchicago.org/resource/87v8-29pv.json', fdataBar);
     //filters
     
     var is_check= { save: false , near: false};
