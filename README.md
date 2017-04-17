@@ -69,13 +69,16 @@ The application will be building with 3 principal languages, HTML, CSS, and Java
 			Bower: bower install materialize
 			You can add these lines to your html:
 			<!-- Compiled and minified CSS -->
-				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+			
+	<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
 
 			<!-- Compiled and minified JavaScript -->
-				<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+				
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
 		
           
 Test Case Which browsers did you test your project on? Chrome, Firefox
 
 
 There is a problem when starting the map sometimes there is no load and you have to reload the page.
+This is the page : https://lacardenasv.github.io/whereLiveChicago.github.io/ there's a problem with the weather request because the protocol used is http and not https (security) :(
