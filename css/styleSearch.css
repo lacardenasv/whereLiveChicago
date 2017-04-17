@@ -6,6 +6,23 @@ right: 0;
 bottom: 0;
 margin: auto;
 }
+p{
+    font-size: 18px;
+}
+.tabs .tab a{
+    color: purple;
+} /*Black color to the text*/
+
+.tabs .tab a.active {
+    background-color: transparent;
+    color:purple;
+} 
+.tabs .tab a:hover {
+    color:#ba68c8;
+}
+.tabs .indicator {
+	background-color: purple;
+}
 .cursive-weather{
     font-family: 'Satisfy', cursive;
     font-size: 20px;
@@ -14,7 +31,7 @@ margin: auto;
 	font-family: 'Satisfy', cursive;
 }
 #map2{
-    height: 500px;
+    height: 650px;
     width: 100%;
 }
 #map{

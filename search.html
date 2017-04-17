@@ -91,25 +91,21 @@
                         </li>
                     </ul>
                 </li>
-                 <li><a id='price' class="hide waves-effect purple btn">price<i class="material-icons right white-text text-white">payment</i></a></li>
-                <li><a id="restore" class="waves-effect purple btn hide"><i class="material-icons right white-text text-white">restore</i>All houses</a></li>
+                <li><a href='#statis1' id='statistics1' class=" waves-effect purple btn">Statistics
+                     <i class="material-icons right white-text text-white">announcement</i></a></li>
+                
+                <li><a href='#statis2' id='statistics2' class="hide waves-effect purple btn">Details
+                     <i class="material-icons right white-text text-white">announcement</i></a></li>
+                
+                 <li><a id="restore" class="waves-effect purple btn hide"><i class="material-icons right white-text text-white">restore</i>All houses</a></li>
                
             </ul>
         </div>
         <div class="main">
-             <div class="row hide" id='chip' >
-                
-                <div class="col s6">
-                     
-                </div>
-            </div>
+             
+           
             <div class="row">
-                <div class="col s12  ">
-
-                    <div id=guardian>
-                    
-                    </div>
-                   
+                
                     <div id='map' class="valign-wrapper " >
                         <div class=" preloader-wrapper big">
                             <div class="spinner-layer spinner-blue-only">
@@ -125,7 +121,7 @@
 
                     </div>
                     <div id='map2' class="valign-wrapper hide" >
-                        dsfkljs
+             
                         <div class=" preloader-wrapper big">
                             <div class="spinner-layer spinner-blue-only">
                             <div class="circle-clipper left">
@@ -138,6 +134,43 @@
                             </div>
                         </div>
 
+                    </div>
+                
+            </div>
+             <div id='statistics' class="row">
+                <div id='statis1' class="hide">
+                    <!--information about the comunity areas's safe and each house categorized-->
+                    hola
+                </div>
+                <div id='statis2' class="hide col s12">
+                    <!--information about the house --> 
+                    <div class="card">
+                        
+                        <div class="card-content">
+                            <span class="card-title cursive"></span>
+                             <p id='ad'></p>
+                        </div>
+                        <div class="card-tabs">
+                        <ul class="tabs tabs-fixed-width">
+                            <li class="tab"><a class="active" href="#contact">Contact</a></li>
+                            <li class="tab"><a href="#distance">Distance to University</a></li>
+                            <li class="tab"><a href="#prices">Prices</a></li>
+                            
+                        </ul>
+                        </div>
+                        <div class="card-content grey lighten-4">
+                        <div id="contact" class="cursive">
+                            <p id='manage'></p>
+                            <p id='phone'></p>
+                        </div>
+                        <div id='distance' class="cursive">
+                            <p id='distance_depart'></p>
+                        </div>
+                        <div id='prices'  class="cursive">
+                            
+                        </div>
+                        
+                        </div>
                     </div>
                 </div>
             </div>

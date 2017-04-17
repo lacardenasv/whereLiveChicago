@@ -22,8 +22,9 @@ function fdataHouse(response){
                 latitude: house.latitude,
                 longitude: house.longitude,
                 name: house.property_name,
-                address: house.address
-
+                address: house.address,
+                phone_number: house.phone_number,
+                management_company: house.management_company
             });
             
             
@@ -159,19 +160,21 @@ function loadZillow(location) {
         contentType: 'text/xml',
         dataType: 'xml',
         success: function (xml) {
-            var xmlDoc = $.parseXML( xml ); 
-            var $xml = $(xmlDoc);
-
+            
+            $('#prices').empty();
+            $response= $(xml).find('response');
+            $results= $response.find('result');
             console.log(xml);
-            /*$person.each(function(){
+            $results.each( function (index,result) {
+                var para= $('<p></p>');
+                var rent= $(result).find('rentzestimate');
+                var last_update= $(rent).find('last-updated');
+                var amount= $(rent).find('amount');
+                var price= para.text('Price: $'+amount.text()+ ' Last update: '+last_update.text());
+                $('#prices').append(price); 
+                
+            })
 
-    var name = $(this).find('name').text(),
-        age = $(this).find('age').text();
-
-    $("#ProfleList" ).append('<li>' +name+ ' - ' +age+ '</li>');
-*
-});
-*/ 
         }
     })
 }
@@ -192,14 +195,16 @@ function rate_save() {
  //filters functions
  function find_save(locations) {
     safe_locations=[];
+    //console.log(locations);
     if (!AVAILABLE){ 
+        console.log(AVAILABLE);
         var rate= rate_save();
         AVAILABLE= rate;
     }
     $.map(locations, function(house, index){
         for( var i=0; i<community_areas.length;i++){
             if (house.community_area===community_areas[i].area_numbe) {
-                if(community_areas[i].rate_save<15){
+                if(community_areas[i].rate_save<20){
                     safe_locations.push(house);
                 }
                 break;
@@ -285,10 +290,30 @@ function filters(is_check) {
     $('#search').addClass('hide');
     $('#restore').removeClass('hide');
     $('#place').removeClass('hide');
-    $('#price').removeClass('hide');
+   
+    $('#statistics1').addClass('hide');
+    $('#statistics2').removeClass('hide'); 
+    $('#statis1').addClass('hide'); 
+    
     
  }
 
+function  come_back_dom() {
+   $('#restore').on('click', function(){
+        $('#map').removeClass('hide');
+        $('#map2').addClass('hide');
+        $('#chip').addClass('hide');
+        $('#search').removeClass('hide');
+        $('#restore').addClass('hide');
+        $('#place').addClass('hide');
+        $('#places').trigger("reset");
+       
+        $('#statistics2').addClass('hide');
+        $('#statistics1').removeClass('hide'); 
+        $('#statis2').addClass('hide'); 
+        
+   });  
+}
 function place_checked(area_near, map2) {
     var img_park= {url: 'img/park.png', scaledSize: new google.maps.Size(35, 35)};
     var img_police={url: 'img/police.png', scaledSize: new google.maps.Size(35, 35)};
@@ -421,26 +446,31 @@ function initMap2(origin, content) {
     //places near  
     var near_libra= new load_places_near(area_near,libraries,map2,imageLibra);
     var checked_place= new place_checked(area_near, map2);
+    var come_back= new come_back_dom();
 
-   $('#restore').on('click', function(){
-        $('#map').removeClass('hide');
-        $('#map2').addClass('hide');
-        $('#chip').addClass('hide');
-        $('#search').removeClass('hide');
-        $('#restore').addClass('hide');
-        $('#place').addClass('hide');
-        $('#places').trigger("reset");
-        $('#price').addClass('hide');
+   $('#statistics2').on('click', function () {  
+       $('#prices').empty();
+       new loadZillow(origin);
+       detail_card(origin, depart);
    });
-    
-    
-   $('#price').on('click', price(origin))
    
 }
-
-function price(origin) {
-    var price=new loadZillow(origin);
+function distance(origin, depart) {
+    
 }
+function detail_card(origin, depart) {
+    var phone= 'Phone: '+origin.phone_number;
+    var manage='Management company: '+origin.management_company;
+    var dista = new distance(origin, depart);
+    $('#statis2').removeClass('hide');
+    $('.card-title').text(origin.name);
+    $('#ad').text('Address: '+origin.address);
+    $('#manage').text(manage);
+    $('#phone').text(phone);
+    
+    $('#distance_depart').text()
+}
+
 /**
  * 
  * CRITERIOS MAS IMPORTANTES : SEGURIDAD Y PRESUPUESTO
@@ -462,17 +492,21 @@ function initMap(locations){
     });
     //locating houses
     for (var i=0 ; i< locations.length; i++) {
-        var lat= locations[i].latitude;
-        var long= locations[i].longitude;
+        var current= locations[i];
+        var lat= current.latitude;
+        var long= current.longitude;
         var latLng= new google.maps.LatLng(lat, long);
         var market= new google.maps.Marker({
             position: latLng,
             map: map,
             icon: imageHouse,
-            address: locations[i].address
+            address: current.address,
+            name: current.name,
+            phone_number: current.phone_number,
+            management_company: current.management_company
         });
         
-        var content= locations[i].name + ', Address: '+locations[i].address;
+        var content= current.name + ', Address: '+current.address;
         var info = new google.maps.InfoWindow();
         
         google.maps.event.addListener(market,'click', (function(market,content,info){ 
@@ -502,13 +536,15 @@ function initMap(locations){
     // about event departament computers...
     var events1= new events_marker(marker, name, map, infoWindow);
     
+   $('#statistics1').on('click', function () {  
+       $('#statis1').removeClass('hide');
+   })
 };
 
  //DATA VISUALIZATION
 
  function dataVizualization(){
-     d3.queue()
-     .defer()
+     
  }
 
 $(document).ready(function(){
