@@ -481,15 +481,13 @@ function distance(origin, depart) {
 }
 function detail_card(origin, depart) {
     
-    
-    var rate= ["", "img/good.png", "", ""];
     var phone= 'Phone: '+origin.phone_number;
     var manage='Management company: '+origin.management_company;
     var dista = new distance(origin, depart);
     var comuni_area= $('<p></p>');
     var crimes= $('<p></p>');
     var safe=0;
-    console.log(rate[0]);
+    
     //DOM traversing 
     $('#statis2').removeClass('hide');
     $('.card-title').text(origin.name);
