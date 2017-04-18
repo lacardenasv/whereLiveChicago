@@ -31,42 +31,54 @@ DeepHouse allows you to find a home that fits your needs in the city of chicago.
 It takes as criteria the level of criminality in the community area, nearby leisure sites such as parks, libraries, restaurants ,police stations, proximity to the computer science department of the University of Illinois.
 
 
-##Map View:
+## Map View:
 
-* [Y] Basic Map with specific location (your map is located in a meaningful place, city of west lafayette for example)
-* [Y] Markers for location of markets
-* [Y] Labels for markets' names
-* [Y] InfoWindow to show detail information of a market
-* [Y] [describe] Any other cover on the map ? A polygon is made for a source point to calculate the area nearby and thus filter the nearby sites.
+* [Y] Basic Map with specific location.
+* [Y] Markers for location of markets.
+* [Y] Labels for markets' names.
+* [Y] InfoWindow to show detail information of a market.
+* [Y] Any other cover on the map ? A polygon is made for a source point to calculate the area nearby and thus filter the nearby sites.
 
-Data Visualization:
+## Data Visualization:
 
-	[N] [describe] Use Graph? What is the type? 
-	[N] [List] Any interaction available on the graph? 
+* [N] Use Graph? What is the type? 
+* [N] Any interaction available on the graph? 
 
-Interaction Form:
+## Interaction Form:
 
-	[Y] [List] Any information output? 
-		Card -> weather today
-	[Y] [List] Any operation option (filters)? 
-		Checkbox:
-			Save House 
-			Home nearby
-		RadioButtons:
-			Parks
-			Police station
-			Health centers
-			Leisure centers
-	[Y] [List] Interaction with Map? List them. 
+* [Y] [List] Any information output? 
+	```	
+	Card -> weather today
+	Cars -> Information about a specific house such as the price, the distance between it and the university, the security of the sector where the house is located and contact information.
+	```	
+* [Y] [List] Any operation option (filters)? 
+	```
+	Checkbox:
+		* Save House 
+		* Home nearby
+	RadioButtons:
+		* Parks
+		* Police station
+		* Health centers
+		* Leisure centers
+	Buttons:
+		* Stadistics
+		* House's destails
+	```
+* [Y] [List] Interaction with Map? List them. 
+```
 		Hover Mouse -> Show InfoWindow
-		Click House -> Show in detail a house and the libraries near this.
-	[N] [List] Interaction with data visualization? 
+		Click House -> Show in detail a house and the 			libraries near this.
+```
+* [N] [List] Interaction with data visualization? 
 
+## Technologies
 The application will be building with 3 principal languages, HTML, CSS, and JavaScript, but will have components that help in the objective:
-	1. Bootstrap: Framework to html, Css, JavaScript
-	2. JQuery: Library of JavaScript (AJAX)
-	3. Font-Awesome: css toolkit for get icons 
-	4. Materialize: This is a framework for material design and is installed as follows.->
+* Bootstrap: Framework to html, Css, JavaScript
+* JQuery: Library of JavaScript (AJAX)
+* Font-Awesome: css toolkit for get icons 
+* Materialize: This is a framework for material design and is installed as follows.->
+```
 			NPM:   npm install materialize-css
 			Bower: bower install materialize
 			You can add these lines to your html:
@@ -78,9 +90,14 @@ The application will be building with 3 principal languages, HTML, CSS, and Java
 				
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
 		
-          
+```
 Test Case Which browsers did you test your project on? Chrome, Firefox
+## LINK
 
+[DeepHouse](https://lacardenasv.github.io/whereLiveChicago/)
 
-There is a problem when starting the map sometimes there is no load and you have to reload the page.
-This is the page : https://lacardenasv.github.io/whereLiveChicago.github.io/ there's a problem with the weather request because the protocol used is http and not https (security) :(
+### Comments
+
+* Do not use a filter for the price since I would be doing many requets to zillow and would exceed the requets limit per day
+* There is a problem when starting the map sometimes there is no load and you have to reload the page.I think it's because of the asynchronous calls
+* There's a problem with the weather request because the protocol used is http and not https (security) :(
