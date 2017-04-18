@@ -10,7 +10,7 @@ var health_centers=[];
 var bars=[];
 var community_areas=[];
 var crimes=[];
-
+var price_best=0;
 //callbacks functions
 function fdataHouse(response){
     $.map(response, function (house, index) {
@@ -163,25 +163,28 @@ function loadZillow(location) {
         type: 'GET',
         contentType: 'text/xml',
         dataType: 'xml',
-        success: function (xml) {
-            
-            $('#prices').empty();
-            $response= $(xml).find('response');
-            $results= $response.find('result');
-            
-            $results.each( function (index,result) {
-                var para= $('<p></p>');
-                var rent= $(result).find('rentzestimate');
-                var last_update= $(rent).find('last-updated');
-                var amount= $(rent).find('amount');
-                var price= para.text('Price: $'+amount.text()+ ' Last update: '+last_update.text());
-                $('#prices').append(price); 
-            })
-
-        }
+        success: zillow
     })
 }
-
+function zillow(xml) {
+            
+    $('#prices').empty();
+    var amount;
+    $response= $(xml).find('response');
+    $results= $response.find('result');
+    
+    $.map($results, function (result,index) {
+        var para= $('<p></p>');
+        var rent= $(result).find('rentzestimate');
+        var last_update= $(rent).find('last-updated');
+        amount= $(rent).find('amount');
+        var price= para.text('Price: $'+amount.text()+ ' Last update: '+last_update.text());
+        $('#prices').append(price); 
+        console.log(amount);
+    })
+    price_best=parseFloat(amount.text());
+    
+}
 function rate_save() {
     
     for (var i = 0; i < community_areas.length; i++) {
@@ -216,6 +219,7 @@ function rate_save() {
     })
     //console.log(safe_locations);
     initMap(safe_locations);
+    return safe_locations;
 
  }
  function find_near(mode) {
@@ -247,7 +251,44 @@ function rate_save() {
 //MODE : is the way for know which map display. 
 function find_save_and_near(mode) {
     var near= find_near(mode);
-    find_save(near)
+    var safe_near= find_save(near);
+    return safe_near;
+}
+function best() {
+    $('#showbest').on('click', show_best);
+}
+function show_best() {
+
+    var depart= new google.maps.LatLng(41.8708, -87.6505);
+    var safe_near= find_save_and_near(2);
+    var price_min= Infinity;
+    var best;
+    var candidates=[];
+    for (var i = 0; i < safe_near.length; i++) {
+     
+        var current=safe_near[i];
+        var latLng= new google.maps.LatLng(current.latitude, current.longitude);
+        var origin= new google.maps.Marker({
+            position: latLng,
+            address: current.address,
+            name: current.name,
+            phone_number: current.phone_number,
+            management_company: current.management_company,
+            community_n: current.community_area,
+            community_name: current.community_name
+        });
+        new loadZillow(origin);
+        if (price_best< price_min){
+            best=i;
+            price_min= price_best;
+        }
+        candidates.push({
+            house: origin,
+            price: price_min
+        })
+    }
+    var final= candidates[best].house;
+    detail_card(final,depart );
 }
 function filters(is_check) {
     //Any suggestions for this code? , I don't like it :(
@@ -623,6 +664,6 @@ $(document).ready(function(){
     
     var is_check= { save: false , near: false};
     var filter= new filters(is_check);
-
+    var bes= new best();
 
 })
