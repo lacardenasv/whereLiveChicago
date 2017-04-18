@@ -481,13 +481,15 @@ function distance(origin, depart) {
 }
 function detail_card(origin, depart) {
     
+    
+    var rate= ["", "img/good.png", "", ""];
     var phone= 'Phone: '+origin.phone_number;
     var manage='Management company: '+origin.management_company;
     var dista = new distance(origin, depart);
     var comuni_area= $('<p></p>');
     var crimes= $('<p></p>');
     var safe=0;
-    
+    console.log(rate[0]);
     //DOM traversing 
     $('#statis2').removeClass('hide');
     $('.card-title').text(origin.name);
@@ -513,8 +515,20 @@ function detail_card(origin, depart) {
      
     var secutirty= comuni_area.text('Community area: '+origin.community_name);
     var crimes_n= crimes.text("Crimes's Number in this area: "+ safe);
+    
     $('#security').append(secutirty);
     $('#security').append(crimes_n);
+    //face categorize the safe
+    
+    if( safe < 10){
+        $('#face').attr('src', 'img/max_safe.png');
+    }else if(10 <= safe && safe < 20){
+        $('#face').attr('src', 'img/good.png');
+    }else if(20 <= safe && safe <30 ){
+        $('#face').attr('src','img/insecure.png');
+    }else{
+        $('#face').attr('src', 'img/danger.png');
+    }
 }
 
 

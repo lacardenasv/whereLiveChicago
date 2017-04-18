@@ -53,4 +53,8 @@ p{
 .padding{
     padding-left: 20px;
 }
-     
+
+#face{
+    height: 10;
+    width: 10;
+}     
