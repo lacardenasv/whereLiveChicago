@@ -18,6 +18,7 @@ function fdataHouse(response){
         if ((typeof house.longitude !== 'undefined') && (typeof house.latitude !== 'undefined') ){
         
             locations1.push({
+                community_name: house.community_area,
                 community_area: house.community_area_number,
                 latitude: house.latitude,
                 longitude: house.longitude,
@@ -42,8 +43,10 @@ function fdataCommunityA(response) {
             area_numbe: community.area_numbe,
             community: community.community,
             the_geom: community.the_geom,
-            rate_save: 0
+            rate_save: 0,
+            
         })
+        
      })
 }
 
@@ -165,7 +168,7 @@ function loadZillow(location) {
             $('#prices').empty();
             $response= $(xml).find('response');
             $results= $response.find('result');
-            console.log(xml);
+            
             $results.each( function (index,result) {
                 var para= $('<p></p>');
                 var rent= $(result).find('rentzestimate');
@@ -173,7 +176,6 @@ function loadZillow(location) {
                 var amount= $(rent).find('amount');
                 var price= para.text('Price: $'+amount.text()+ ' Last update: '+last_update.text());
                 $('#prices').append(price); 
-                
             })
 
         }
@@ -198,7 +200,7 @@ function rate_save() {
     safe_locations=[];
     //console.log(locations);
     if (!AVAILABLE){ 
-        console.log(AVAILABLE);
+        
         var rate= rate_save();
         AVAILABLE= rate;
     }
@@ -291,11 +293,9 @@ function filters(is_check) {
     $('#search').addClass('hide');
     $('#restore').removeClass('hide');
     $('#place').removeClass('hide');
-   
     $('#statistics1').addClass('hide');
     $('#statistics2').removeClass('hide'); 
     $('#statis1').addClass('hide'); 
-    
     
  }
 
@@ -312,14 +312,13 @@ function  come_back_dom() {
         $('#statistics2').addClass('hide');
         $('#statistics1').removeClass('hide'); 
         $('#statis2').addClass('hide'); 
-        
    });  
 }
 function place_checked(area_near, map2) {
     var img_park= {url: 'img/park.png', scaledSize: new google.maps.Size(35, 35)};
     var img_police={url: 'img/police.png', scaledSize: new google.maps.Size(35, 35)};
     var img_health= {url: 'img/hospital.jpg', scaledSize: new google.maps.Size(35, 35)};
-    var img_center= {url: 'img/bar.png', scaledSize: new google.maps.Size(35, 35)}
+    var img_center= {url: 'img/restaurant.png', scaledSize: new google.maps.Size(35, 35)}
 
     $('#places').on('change', '.with-gap', function () {  
         var place= $(this);
@@ -392,7 +391,7 @@ function initMap2(origin, content) {
     
     var dom_resfresh= new remove_add_components();
     var location= origin.position;
-    var places=[];
+    
     var description= content;
     var origin_lat_lon= origin.position.toJSON();
     var imageOrigin= {url: 'img/house.png', scaledSize: new google.maps.Size(35, 35)}
@@ -451,6 +450,7 @@ function initMap2(origin, content) {
 
    $('#statistics2').on('click', function () {  
        $('#prices').empty();
+       $('#security').empty();
        new loadZillow(origin);
        detail_card(origin, depart);
    });
@@ -470,27 +470,53 @@ function distance(origin, depart) {
     }, callback);
 
     function callback(response, status) {
-        console.log(response);
+        
         var distance= response.rows[0].elements[0].distance.text;
         var time= response.rows[0].elements[0].duration.text;
-        console.log(distance)
+        
         $('#distance').text('Distance: '+ distance);
         $('#time').text('Travel time walking: '+ time);
         
     }
 }
 function detail_card(origin, depart) {
+    
     var phone= 'Phone: '+origin.phone_number;
     var manage='Management company: '+origin.management_company;
     var dista = new distance(origin, depart);
+    var comuni_area= $('<p></p>');
+    var crimes= $('<p></p>');
+    var safe=0;
+    
+    //DOM traversing 
     $('#statis2').removeClass('hide');
     $('.card-title').text(origin.name);
     $('#ad').text('Address: '+origin.address);
     $('#manage').text(manage);
     $('#phone').text(phone);
-    
     $('#distance_depart').text()
+    
+    //crime secure 
+    if(!AVAILABLE){
+        var rate= new rate_save();
+        AVAILABLE= rate;
+    }
+    
+    $.each(community_areas, function (index, community) {
+        var n_com= parseInt(community.area_numbe);
+        var origin_com= parseInt(origin.community_n);
+        if(origin_com===n_com){
+                safe= community.rate_save;
+                return ;
+        }
+    })   
+     
+    var secutirty= comuni_area.text('Community area: '+origin.community_name);
+    var crimes_n= crimes.text("Crimes's Number in this area: "+ safe);
+    $('#security').append(secutirty);
+    $('#security').append(crimes_n);
 }
+
 
 /**
  * 
@@ -524,7 +550,9 @@ function initMap(locations){
             address: current.address,
             name: current.name,
             phone_number: current.phone_number,
-            management_company: current.management_company
+            management_company: current.management_company,
+            community_n: current.community_area,
+            community_name: current.community_name
         });
         
         var content= current.name + ', Address: '+current.address;
