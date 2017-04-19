@@ -130,7 +130,30 @@ function fdataBar(response) {
 }
   
 
-//This function works for all dataset , except Zillow , this help me to retrieve the data 
+function zillow(xml) {
+            
+    var amount;
+    $response= $(xml).find('response');
+    $results= $response.find('result');
+    console.log(xml);
+    $.map($results, function (result,index) {
+        var para= $('<p></p>');
+        var rent= $(result).find('rentzestimate');
+        var last_update= $(rent).find('last-updated');
+        amount= $(rent).find('amount');
+        if (typeof amount !== "undefined"){
+            var price= para.text('Price: $'+amount.text()+ ' Last update: '+last_update.text());
+            $('#prices').append(price); 
+            console.log(amount);
+        }
+    })
+    //price_best=parseFloat(amount.text());
+    
+}
+function climateOfficial(data) {
+    console.log(data);
+}
+//This function works for all dataset , except Zillow and Climate Official, this help me to retrieve the data 
 function loadDataset(url, callback) {
    
    $.ajax(url, {
@@ -166,25 +189,15 @@ function loadZillow(location) {
         success: zillow
     })
 }
-function zillow(xml) {
-            
-    $('#prices').empty();
-    var amount;
-    $response= $(xml).find('response');
-    $results= $response.find('result');
-    
-    $.map($results, function (result,index) {
-        var para= $('<p></p>');
-        var rent= $(result).find('rentzestimate');
-        var last_update= $(rent).find('last-updated');
-        amount= $(rent).find('amount');
-        var price= para.text('Price: $'+amount.text()+ ' Last update: '+last_update.text());
-        $('#prices').append(price); 
-        console.log(amount);
+
+function loadClimate(url, callback) {
+    $.ajax(url, {
+        headers:{ token: 'gHlWYVHAWIRhqMjzUgRcviJjCjvaHwBB'},
+        success: callback
+        
     })
-    price_best=parseFloat(amount.text());
-    
 }
+
 function rate_save() {
     
     for (var i = 0; i < community_areas.length; i++) {
@@ -199,7 +212,7 @@ function rate_save() {
     return true;
 }
  //filters functions
- function find_save(locations) {
+ function find_save(locations, mode) {
     safe_locations=[];
     //console.log(locations);
     if (!AVAILABLE){ 
@@ -255,10 +268,15 @@ function find_save_and_near(mode) {
     return safe_near;
 }
 function best() {
-    $('#showbest').on('click', show_best);
+    $('#showbest').on('click', function () {  
+        show_best();
+
+    });
 }
 function show_best() {
-
+    $('#prices').empty();
+    $('#security').empty();
+    
     var depart= new google.maps.LatLng(41.8708, -87.6505);
     var safe_near= find_save_and_near(2);
     var price_min= Infinity;
@@ -277,6 +295,7 @@ function show_best() {
             community_n: current.community_area,
             community_name: current.community_name
         });
+        
         new loadZillow(origin);
         if (price_best< price_min){
             best=i;
@@ -287,7 +306,10 @@ function show_best() {
             price: price_min
         })
     }
+
     var final= candidates[best].house;
+    var content= final.name + ' THE BEST HOUSE';
+    initMap2(final,content );
     detail_card(final,depart );
 }
 function filters(is_check) {
@@ -490,13 +512,17 @@ function initMap2(origin, content) {
     var come_back= new come_back_dom();
 
    $('#statistics2').on('click', function () {  
+        new details(origin, depart);
+    });
+   
+}
+function details(origin, depart){
        $('#prices').empty();
        $('#security').empty();
        new loadZillow(origin);
        detail_card(origin, depart);
-   });
-   
 }
+
 function distance(origin, depart) {
     var origin1 = origin.position;
 
@@ -651,8 +677,9 @@ function initMap(locations){
 
 $(document).ready(function(){
     
+    var dataClimateOfficial= new loadClimate('https://www.ncdc.noaa.gov/cdo-web/api/v2/datasets', climateOfficial)
     var dataRentHouse= new  loadDataset('https://data.cityofchicago.org/resource/uahe-iimk.json', fdataHouse);
-    var dataWeather= new loadDataset('http://api.openweathermap.org/data/2.5/weather?lon=-87.635597&lat=41.506149&APPID=0702dcac8a4c88c8009b41d768395487', fdataWeather); 
+    //var dataWeather= new loadDataset('http://api.openweathermap.org/data/2.5/weather?lon=-87.635597&lat=41.506149&APPID=0702dcac8a4c88c8009b41d768395487', fdataWeather); 
     var dataLibraries= new loadDataset('https://data.cityofchicago.org/resource/psqp-6rmg.json', fdataLibraries); 
     var dataPolice = new loadDataset('https://data.cityofchicago.org/resource/9rg7-mz9y.json', fdataPolice);
     var dataPark= new loadDataset('https://data.cityofchicago.org/resource/4xwe-2j3y.json', fdataPark);
@@ -660,6 +687,7 @@ $(document).ready(function(){
     var dataCommunityA= new loadDataset('https://data.cityofchicago.org/resource/igwz-8jzy.json', fdataCommunityA);
     var dataCrime= new loadDataset('https://data.cityofchicago.org/resource/vwwp-7yr9.json', fdataCrime);
     var dataRestaurant= new loadDataset('https://data.cityofchicago.org/resource/87v8-29pv.json', fdataBar);
+    
     //filters
     
     var is_check= { save: false , near: false};
