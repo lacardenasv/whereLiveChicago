@@ -231,7 +231,9 @@ function rate_save() {
         }
     })
     //console.log(safe_locations);
-    initMap(safe_locations);
+    if(mode==2){
+        initMap(safe_locations);
+    }
     return safe_locations;
 
  }
@@ -264,21 +266,23 @@ function rate_save() {
 //MODE : is the way for know which map display. 
 function find_save_and_near(mode) {
     var near= find_near(mode);
-    var safe_near= find_save(near);
+    var safe_near= find_save(near, mode);
     return safe_near;
 }
 function best() {
     $('#showbest').on('click', function () {  
+        console.log('esta m');
+        $('#bestHouse').modal('open');
         show_best();
-
     });
+
 }
 function show_best() {
     $('#prices').empty();
     $('#security').empty();
     
     var depart= new google.maps.LatLng(41.8708, -87.6505);
-    var safe_near= find_save_and_near(2);
+    var safe_near= find_save_and_near(3);
     var price_min= Infinity;
     var best;
     var candidates=[];
@@ -339,7 +343,7 @@ function filters(is_check) {
             find_save_and_near(2);
             
         }else if(is_check.save===true){
-            find_save(locations1);
+            find_save(locations1, 2);
         }else if(is_check.near===true){
             find_near(1); 
         }else{

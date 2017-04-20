@@ -97,7 +97,7 @@
                 <li><a href='#statis2' id='statistics2' class="hide waves-effect purple btn">Details
                      <i class="material-icons right white-text text-white">announcement</i></a></li>
                 
-                <li><a href='#statis2' id='showbest' class=" waves-effect  pink accent-3 btn">Best House
+                <li><a  href="#bestHouse" id='showbest' class="modal-trigger waves-effect  pink accent-3 btn">Best House
                      <i class="material-icons right white-text text-white">grade</i></a></li>
                 
                 <li><a id="restore" class="waves-effect purple btn hide"><i class="material-icons right white-text text-white">restore</i>All houses</a></li>
@@ -105,10 +105,20 @@
             </ul>
         </div>
         <div class="main">
-             
+              <div id="bestHouse" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                <h4>Best House</h4>
+                <p>The house closest to the Department of Computer Science – University of Illinois that has the lowest rent price and also safe.</p>
+                </div>
+                <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect pink accent-3 btn-flat ">View!
+                    <i class="material-icons right white-text text-white">grade</i>
+                </a>
+                </div>
+            </div>
            
             <div class="row">
-                
+
                     <div id='map' class="valign-wrapper " >
                         <div class=" preloader-wrapper big">
                             <div class="spinner-layer spinner-blue-only">
@@ -154,13 +164,13 @@
                              <p id='ad'></p>
                         </div>
                         <div class="card-tabs">
-                        <ul class="tabs tabs-fixed-width">
-                            <li class="tab"><a class="active" href="#contact">Contact</a></li>
-                            <li class="tab"><a href="#distances">Distance to University</a></li>
-                            <li class="tab"><a href="#prices">Prices</a></li>
-                            <li class="tab"><a href="#info">Security</a></li>
-                            
-                        </ul>
+                            <ul class="tabs tabs-fixed-width">
+                                <li class="tab"><a class="active" href="#contact">Contact</a></li>
+                                <li class="tab"><a href="#distances">Distance to University</a></li>
+                                <li class="tab"><a href="#prices">Prices</a></li>
+                                <li class="tab"><a href="#info">Security</a></li>
+                                
+                            </ul>
                         </div>
                         <div class="card-content grey lighten-4">
                             <div id="contact" class="cursive">
@@ -179,7 +189,6 @@
                                     
                                 </div>
                                 <div  class="col s4 ">
-                                  
                                   <img id='face' src="" class="responsive-img">
                                 </div>
                             </div>
