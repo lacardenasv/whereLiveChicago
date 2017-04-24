@@ -4,6 +4,7 @@
 Keywords : price , safety, chicago, places near, rent 
 
 ### Description of the datasets and function design
+* [Climate Data Online](https://www.ncdc.noaa.gov/cdo-web/) [JSON] [results, value] Climate Data Online (CDO) provides free access to NCDC's archive of global historical weather and climate data in addition to station history information.
 
 * [Affordable Rental Housing Developments](https://data.cityofchicago.org/Community-Economic-Development/Affordable-Rental-Housing-Developments/uahe-iimk) [JSON] [property_name, address,longitude, latitude] Provides information on affordable rental housing development in chicago.
 
