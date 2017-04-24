@@ -101,4 +101,4 @@ Test Case Which browsers did you test your project on? Chrome, Firefox
 
 * Do not use a filter for the price since I would be doing many requets to zillow and would exceed the requets limit per day
 * There is a problem when starting the map sometimes there is no load and you have to reload the page.I think it's because of the asynchronous calls
-* There's a problem with the weather request because the protocol used is http and not https (security) :(
+* When you click to find the best house you should wait an average of 8 seconds since the call to the dataset becomes synchronous.
