@@ -6,7 +6,7 @@
         <!--Import Google Icon Font-->
 
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Material+Icons|Satisfy">
-        
+
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
 
@@ -15,17 +15,18 @@
         <link href="css/styleSearch.css" rel="stylesheet">
     </head>
     <body>
+
         <div id="slideNav">
             <ul  class="side-nav  z-depth-4 fixed">
                 <li>
                     <div id="logo">
-                        <img   class="responsive-img" src="img/logo.jpg" height="70%" width="70%">    
+                        <img   class="responsive-img" src="img/logo.jpg" height="70%" width="70%">
                     </div>
                     <h4 class="center-align cursive">DeepHouse</h4>
                 </li>
 
                 <li><div class="divider"></div></li>
-                <li> 
+                <li>
                     <div class="card padding padding-top">
                         <div class="card-header card-purple">
                             <i class="material-icons left purple-text text-purple">cloud</i>
@@ -35,13 +36,13 @@
                         </div>
                         <div class="divider"></div>
                         <div class="card-footer">
-                          
+
                         </div>
                     </div>
                 </li>
                  <li class="no-padding">
                     <ul id="search" class="collapsible collapsible-accordion">
-                    
+
                         <li >
                             <a class="collapsible-header waves-effect purple btn">Filters<i class="material-icons right white-text text-white">search</i></a>
                             <div class="collapsible-body">
@@ -57,7 +58,7 @@
                                             <p>
                                         </form>
                                     </li>
-                                   
+
                                 </ul>
                             </div>
                         </li>
@@ -65,7 +66,7 @@
                 </li>
                  <li class="no-padding">
                     <ul id="place" class="collapsible collapsible-accordion hide">
-                    
+
                         <li >
                             <a class="collapsible-header waves-effect purple btn">Places Near<i class="material-icons right white-text text-white">list</i></a>
                             <div class="collapsible-body">
@@ -85,7 +86,7 @@
                                             <p>
                                         </form>
                                     </li>
-                                   
+
                                 </ul>
                             </div>
                         </li>
@@ -93,30 +94,31 @@
                 </li>
                 <li><a href='#statis1' id='statistics1' class=" waves-effect purple btn">Statistics
                      <i class="material-icons right white-text text-white">announcement</i></a></li>
-                
+
                 <li><a href='#statis2' id='statistics2' class="hide waves-effect purple btn">Details
                      <i class="material-icons right white-text text-white">announcement</i></a></li>
-                
+
                 <li><a  href="#bestHouse" id='showbest' class="modal-trigger waves-effect  pink accent-3 btn">Best House
                      <i class="material-icons right white-text text-white">grade</i></a></li>
-                
+
                 <li><a id="restore" class="waves-effect purple btn hide"><i class="material-icons right white-text text-white">restore</i>All houses</a></li>
-               
+
             </ul>
         </div>
         <div class="main">
+
               <div id="bestHouse" class="modal modal-fixed-footer">
                 <div class="modal-content">
                 <h4>Best House</h4>
                 <p>The house closest to the Department of Computer Science – University of Illinois that has the lowest rent price and also safe.</p>
                 </div>
                 <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect pink accent-3 btn-flat ">View!
+                <a href="#!" class="modal-action modal-close waves-effect pink accent-3 btn ">View!
                     <i class="material-icons right white-text text-white">grade</i>
                 </a>
                 </div>
             </div>
-           
+
             <div class="row">
 
                     <div id='map' class="valign-wrapper " >
@@ -134,7 +136,7 @@
 
                     </div>
                     <div id='map2' class="valign-wrapper hide" >
-             
+
                         <div class=" preloader-wrapper big">
                             <div class="spinner-layer spinner-blue-only">
                             <div class="circle-clipper left">
@@ -148,7 +150,7 @@
                         </div>
 
                     </div>
-                
+
             </div>
              <div id='statistics' class="row">
                 <div id='statis1' class="hide">
@@ -156,9 +158,9 @@
                     hola
                 </div>
                 <div id='statis2' class="hide col s12">
-                    <!--information about the house --> 
+                    <!--information about the house -->
                     <div class="card z-depth-5">
-                        
+
                         <div class="card-content">
                             <span class="card-title cursive"></span>
                              <p id='ad'></p>
@@ -169,7 +171,7 @@
                                 <li class="tab"><a href="#distances">Distance to University</a></li>
                                 <li class="tab"><a href="#prices">Prices</a></li>
                                 <li class="tab"><a href="#info">Security</a></li>
-                                
+
                             </ul>
                         </div>
                         <div class="card-content grey lighten-4">
@@ -182,38 +184,38 @@
                                 <p id='time'></p>
                             </div>
                             <div id='prices'  class="cursive">
-                                
+
                             </div>
                             <div id='info'  class="cursive row">
                                 <div id='security' class="col s6">
-                                    
+
                                 </div>
                                 <div  class="col s4 ">
                                   <img id='face' src="" class="responsive-img">
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
             </div>
-            
-
-         </div>      
-    
 
 
-   <!--scripts-->       
-        <script async defer
+         </div>
+
+
+
+   <!--scripts-->
+        <script
 	        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtlN7Dw4oyfftne6OKKaEqVmol-AywbFo&libraries=geometry">
         </script>
-        
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
        <script type="text/javascript" src="https://rawgit.com/bvaughn/js-search/1.2.0/dist/js-search.js"></script>
 
         <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>-->
         <script type="text/javascript" src="js/materialize.min.js"></script>
- 
+
         <script src="js/retrieveData.js">
         </script>
     </body>

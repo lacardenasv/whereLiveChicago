@@ -19,12 +19,17 @@ p{
 .tabs .tab a.active {
     background-color: transparent;
     color:purple;
-} 
+}
 .tabs .tab a:hover {
     color:#ba68c8;
 }
 .tabs .indicator {
 	background-color: purple;
+}
+
+.modal{
+  width: 45% !important;
+  height: 45% !important;
 }
 .cursive-weather{
     font-family: 'Satisfy', cursive;
@@ -57,4 +62,4 @@ p{
 #face{
     height: 10;
     width: 10;
-}     
+}
